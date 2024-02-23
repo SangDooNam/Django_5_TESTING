@@ -1,0 +1,25 @@
+{% extends 'common/base.html' %}
+
+{% block content %}
+  {{ block.super }}
+  <h1>To Do number {{ id }}</h1>
+  {% if request.session.user_name %}
+    <h3>{{ todo.topic }}</h3>
+    <p>{{ todo.text }}</p>
+    <p>{{ todo.status|title }}</p>
+    <p>
+      {% if id > 1 %}
+        <a href="{% url 'todo:details' todo_id=id|add:-1 %}">Previous</a>
+      {% else %}
+        Previous
+      {% endif %}
+      {% if id < num_todos %}
+        <a href="{% url 'todo:details' todo_id=id|add:1 %}">Next</a>
+      {% else %}
+        Next
+      {% endif %}
+    </p>
+  {% else %}
+    <p>You are not authorized to access this content. <a href="{% url 'login' %}">Log in</a> to gain access.</p>
+  {% endif %}
+{% endblock %}

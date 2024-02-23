@@ -1,0 +1,31 @@
+{% extends 'notes/base.html' %}
+{% load sections %}
+
+{% block content %}
+  {{ block.super }}
+  {% if form %}
+    <form>
+      <table>
+        {{ form.as_table }}
+      </table>
+      <button>Submit</button>
+    </form>
+  {% endif %}
+  {% if notes %}
+    <h4>Notes matching <em>{{ term_of_search }}</em>
+      {% if section %}
+        on section <em>{{ section }}</em>
+      {% endif %}
+    </h4>
+    <ul>
+      {% for note in notes %}
+        {% if term_of_search in note.text %}
+          <li>
+            {{ note.text }}.
+            <div><em>Filed under section {{ note.section|linked_section|safe }}</em></div>
+          </li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endblock %}

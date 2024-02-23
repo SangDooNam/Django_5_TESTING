@@ -1,0 +1,26 @@
+{% extends 'notes/base.html' %}
+{% load sections notes %}
+
+{% block content %}
+  {{ block.super }}
+  <h4>Note number {{ id }}</h4>
+  <p><strong>Section:</strong> {{ note.section|linked_section|safe }}</p>
+  <p><strong>Votes:</strong>
+    {{ note.votes }}
+    {% vote_options request id %}
+  </p>
+  <p>{{ note.text|safe }}</p>
+  <p><a href="{% url 'notes:edit' note_id=id %}">Edit this note</a></p>
+  <p>
+    {% if id > 1 %}
+      <a href="{% url 'notes:details' note_id=id|add:-1 %}">Previous</a>
+    {% else %}
+      Previous
+    {% endif %}
+    {% if id < num_notes %}
+      <a href="{% url 'notes:details' note_id=id|add:1 %}">Next</a>
+    {% else %}
+      Next
+    {% endif %}
+  </p>
+{% endblock %}

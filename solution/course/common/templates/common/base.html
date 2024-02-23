@@ -1,0 +1,35 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>My website</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+  </head>
+  <body>
+    <header>
+      <ul>
+        <li><a href="{% url 'home' %}">Home</a></li>
+        <li><a href="{% url 'notes:home' %}">My Course Notes</a></li>
+        <li><a href="{% url 'todo:details' todo_id=1 %}">My ToDo List</a></li>
+        <li>
+          {% if request.session.user_name %}
+          Logged in as {{request.session.user_name }}.
+          <a href="{% url 'logout' %}">Log out</a>
+          {% else %}
+          <a href="{% url 'login' %}">Log in</a>
+          {% endif %}
+        </li>
+      </ul>
+    </header>
+    <section>
+      {% block content %}
+      {% endblock %}
+    </section>
+    <footer>
+      &copy; to me. Look mom, I am already using cookies!
+    </footer>
+  </body>
+</html>

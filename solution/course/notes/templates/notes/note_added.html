@@ -1,0 +1,7 @@
+{% extends 'notes/base.html' %}
+
+{% block content %}
+  {{ block.super }}
+  <p>The note was added succesfully!</p>
+  <p>Add <a href="{% url 'notes:add' %}">another note</a>.</p>
+{% endblock %}
