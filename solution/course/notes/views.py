@@ -179,11 +179,19 @@ class VoteNoteView(View):
         # Update the user object
         user_store = UserStore()
         users = user_store.get()
-        user_id = [id for id, user in enumerate(users)
-                   if user["name"] == request.session.get("user_name")].pop(0)
-        users[user_id]["voted_notes"].append(note_id)
-        user_store.save(users)
-        # Update the session
-        request.session["user_votes"] = users[user_id]["voted_notes"]
+        user_id = None
+        for id, user in enumerate(users):
+            if user['name'] == request.session.get("user_name"):
+                user_id = id
+        # user_id = [id for id, user in enumerate(users)
+        #            if user["name"] == request.session.get("user_name")].pop(0)
+        if user_id is not None:
+            users[user_id]["voted_notes"].append(note_id)
+            user_store.save(users)
+            # Update the session
+            request.session["user_votes"] = users[user_id]["voted_notes"]
+            return redirect(reverse("notes:details", args=[note_id]))
+        else:
+            return redirect(reverse("notes:home"))
+            
 
-        return redirect(reverse("notes:details", args=[note_id]))
